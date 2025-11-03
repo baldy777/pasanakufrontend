@@ -8,13 +8,14 @@ export default function InicioSesionUsuarios() {
   const [contrasena, setContrasena] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     const usuarios = JSON.parse(localStorage.getItem("usuarios") || "[]");
 
     const usuarioEncontrado = usuarios.find(
-      (user) => user.correo_electronico === correo
+      (user: { correo_electronico: string }) =>
+        user.correo_electronico === correo
     );
 
     if (!usuarioEncontrado) {
