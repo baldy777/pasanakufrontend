@@ -18,126 +18,122 @@ export default function Sidebar({ children }: SidebarProps) {
   const [showUserModal, setShowUserModal] = useState<boolean>(false);
   const navigate = useNavigate();
 
-  // Simula un usuario activo (puedes reemplazarlo con datos reales del login)
   const usuarioActivo = {
     nombre: "Juan Pérez",
     correo: "juanperez@example.com",
     rol: "Administrador",
   };
 
-  // Cerrar sesión
   const handleCerrarSesion = () => {
-    localStorage.removeItem("usuarioActivo"); // o la clave que uses
-    navigate("/login"); // redirige al login
+    localStorage.removeItem("usuarioActivo");
+    navigate("/login");
   };
 
   return (
     <>
       <aside
         className={`
-          fixed left-0 top-0 h-screen z-50 bg-white border-r shadow-lg transition-all duration-300
-          ${expanded ? "w-64" : "w-16"}  
+          fixed left-0 top-0 h-screen z-50
+          bg-[var(--color-bg)] border-r border-[var(--color-muted)]
+          shadow-lg transition-all duration-300
+          ${expanded ? "w-64" : "w-16"}
         `}
       >
         <nav className="h-full flex flex-col">
+          {/* Encabezado */}
           <div className="p-4 pb-2 flex justify-between items-center">
             <img
               src="#"
               className={`overflow-hidden transition-all ${
                 expanded ? "w-32" : "w-0"
               }`}
-              alt=""
+              alt="Logo"
             />
             <button
               onClick={() => setExpanded((curr) => !curr)}
-              className="rounded-lg bg-gray-50 hover:bg-gray-100"
+              className="rounded-lg bg-[var(--color-bg)] hover:bg-[var(--color-primary)]/10 p-1"
             >
               {expanded ? <ChevronFirst /> : <ChevronLast />}
             </button>
           </div>
 
+          {/* Ítems */}
           <SidebarContext.Provider value={{ expanded }}>
             <ul className="flex-1 px-3">{children}</ul>
           </SidebarContext.Provider>
 
-          {/* Perfil de usuario */}
+          {/* Usuario activo */}
           <div
-            className="border-t flex p-3 cursor-pointer hover:bg-gray-50 transition"
+            className="border-t border-[var(--color-muted)] flex p-3 cursor-pointer hover:bg-[var(--color-primary)]/10 transition"
             onClick={() => setShowUserModal(true)}
           >
-            <CiUser />{" "}
+            <CiUser className="text-[var(--color-text)]" />
             <div
-              className={`
-                flex justify-between items-center
-                overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
-              `}
+              className={`flex justify-between items-center overflow-hidden transition-all ${
+                expanded ? "w-52 ml-3" : "w-0"
+              }`}
             >
               <div className="leading-4">
-                <h4 className="font-semibold">{usuarioActivo.nombre}</h4>
-                <span className="text-xs text-gray-600">
+                <h4 className="font-semibold text-[var(--color-text)]">
+                  {usuarioActivo.nombre}
+                </h4>
+                <span className="text-xs text-[var(--color-muted)]">
                   {usuarioActivo.rol}
                 </span>
               </div>
-              <MoreVertical size={20} />
+              <MoreVertical
+                size={20}
+                className="text-[var(--color-muted)] hover:text-[var(--color-primary)] transition"
+              />
             </div>
           </div>
         </nav>
       </aside>
 
+      {/* Modal de usuario */}
       {showUserModal && (
         <div
-          className="fixed inset-0 flex justify-center items-center bg-transparent z-[100]"
+          className="fixed inset-0 flex justify-center items-center bg-black/20 backdrop-blur-sm z-[100]"
           onClick={() => setShowUserModal(false)}
         >
           <div
-            className="bg-white p-6 rounded-xl shadow-xl w-[50%] max-w-lg relative border border-gray-200"
+            className="bg-[var(--color-bg)] p-6 rounded-xl shadow-xl w-[50%] max-w-lg relative border border-[var(--color-muted)]"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+            <h2 className="text-xl font-semibold text-[var(--color-text)] mb-4 text-center">
               Perfil del Usuario
             </h2>
 
-            {/* Formulario editable */}
-            <div className="space-y-3 text-gray-700">
+            <div className="space-y-3 text-[var(--color-text)]">
               <div>
-                <label className="block text-sm font-medium text-gray-600">
+                <label className="block text-sm font-medium text-[var(--color-muted)]">
                   Nombre:
                 </label>
                 <input
                   type="text"
-                  className="mt-1 w-full border rounded px-2 py-1"
+                  className="mt-1 w-full border border-[var(--color-muted)] rounded px-2 py-1 bg-transparent text-[var(--color-text)] focus:border-[var(--color-primary)] outline-none transition"
                   value={usuarioActivo.nombre}
-                  onChange={(e) =>
-                    setUsuarioActivo({
-                      ...usuarioActivo,
-                      nombre: e.target.value,
-                    })
-                  }
+                  readOnly
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600">
+                <label className="block text-sm font-medium text-[var(--color-muted)]">
                   Correo:
                 </label>
                 <input
                   type="email"
-                  className="mt-1 w-full border rounded px-2 py-1"
+                  className="mt-1 w-full border border-[var(--color-muted)] rounded px-2 py-1 bg-transparent text-[var(--color-text)] focus:border-[var(--color-primary)] outline-none transition"
                   value={usuarioActivo.correo}
-                  onChange={(e) =>
-                    setUsuarioActivo({
-                      ...usuarioActivo,
-                      correo: e.target.value,
-                    })
-                  }
+                  readOnly
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-600">
+                <label className="block text-sm font-medium text-[var(--color-muted)]">
                   Rol:
                 </label>
                 <input
                   type="text"
-                  className="mt-1 w-full border rounded px-2 py-1 bg-gray-100"
+                  className="mt-1 w-full border border-[var(--color-muted)] rounded px-2 py-1 bg-[var(--color-muted)]/10 text-[var(--color-text)]"
                   value={usuarioActivo.rol}
                   readOnly
                 />
@@ -146,21 +142,17 @@ export default function Sidebar({ children }: SidebarProps) {
 
             <div className="flex justify-between mt-6">
               <button
-                className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition"
+                className="px-4 py-2 bg-[var(--color-primary)] text-white rounded-lg hover:bg-[var(--color-secondary)] transition"
                 onClick={() => {
-                  // Aquí puedes guardar los cambios en localStorage o llamar a tu API
-                  localStorage.setItem(
-                    "usuarioActivo",
-                    JSON.stringify(usuarioActivo)
-                  );
                   alert("Datos actualizados!");
+                  setShowUserModal(false);
                 }}
               >
                 Guardar
               </button>
 
               <button
-                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                className="px-4 py-2 bg-[var(--color-accent)] text-[var(--color-text)] rounded-lg hover:brightness-90 transition"
                 onClick={handleCerrarSesion}
               >
                 Cerrar sesión
@@ -169,7 +161,7 @@ export default function Sidebar({ children }: SidebarProps) {
 
             <button
               onClick={() => setShowUserModal(false)}
-              className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
+              className="absolute top-2 right-3 text-[var(--color-muted)] hover:text-[var(--color-text)]"
             >
               ✕
             </button>
@@ -180,7 +172,8 @@ export default function Sidebar({ children }: SidebarProps) {
   );
 }
 
-// Items de la barra lateral
+/* ----------- ITEMS DE LA BARRA LATERAL ----------- */
+
 interface SidebarItemProps {
   icon: React.ReactNode;
   text: string;
@@ -201,13 +194,11 @@ export function SidebarItem({ icon, text, to, alert }: SidebarItemProps) {
     <Link to={to}>
       <li
         className={`
-          relative flex items-center py-2 px-3 my-1
-          font-medium rounded-md cursor-pointer
-          transition-colors group
+          relative flex items-center py-2 px-3 my-1 font-medium rounded-md cursor-pointer transition-colors group
           ${
             active
-              ? "bg-gradient-to-tr from-indigo-200 to-indigo-100 text-indigo-800"
-              : "hover:bg-indigo-50 text-gray-600"
+              ? "bg-gradient-to-tr from-[var(--color-primary)]/20 to-[var(--color-primary)]/10 text-[var(--color-primary)]"
+              : "hover:bg-[var(--color-primary)]/10 text-[var(--color-text)]"
           }
         `}
       >
@@ -222,7 +213,7 @@ export function SidebarItem({ icon, text, to, alert }: SidebarItemProps) {
 
         {alert && (
           <div
-            className={`absolute right-2 w-2 h-2 rounded bg-indigo-400 ${
+            className={`absolute right-2 w-2 h-2 rounded bg-[var(--color-accent)] ${
               expanded ? "" : "top-2"
             }`}
           />
@@ -232,7 +223,7 @@ export function SidebarItem({ icon, text, to, alert }: SidebarItemProps) {
           <div
             className={`
               absolute left-full rounded-md px-2 py-1 ml-6
-              bg-indigo-100 text-indigo-800 text-sm
+              bg-[var(--color-primary)]/10 text-[var(--color-primary)] text-sm
               invisible opacity-20 -translate-x-3 transition-all
               group-hover:visible group-hover:opacity-100 group-hover:translate-x-0
             `}
