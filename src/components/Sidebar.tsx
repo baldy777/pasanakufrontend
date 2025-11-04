@@ -1,7 +1,7 @@
 import { ChevronLast, ChevronFirst, MoreVertical } from "lucide-react";
-import { useContext, createContext, useState } from "react";
-import type { ReactNode } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { useContext, createContext, useState, type ReactNode } from "react";
+import { CiUser } from "react-icons/ci";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 interface SidebarContextType {
   expanded: boolean;
@@ -15,65 +15,178 @@ interface SidebarProps {
 
 export default function Sidebar({ children }: SidebarProps) {
   const [expanded, setExpanded] = useState<boolean>(true);
+  const [showUserModal, setShowUserModal] = useState<boolean>(false);
+  const navigate = useNavigate();
 
-  // estado para manejar si la barra lateral está expandida o colapsada
+  // Simula un usuario activo (puedes reemplazarlo con datos reales del login)
+  const usuarioActivo = {
+    nombre: "Juan Pérez",
+    correo: "juanperez@example.com",
+    rol: "Administrador",
+  };
+
+  // Cerrar sesión
+  const handleCerrarSesion = () => {
+    localStorage.removeItem("usuarioActivo"); // o la clave que uses
+    navigate("/login"); // redirige al login
+  };
+
   return (
-    <aside
-      className={`
-        fixed left-0 top-0 h-screen z-50 bg-white border-r shadow-lg transition-all duration-300
-        ${expanded ? "w-64" : "w-16"}  
-      `}
-    >
-      <nav className="h-full flex flex-col">
-        <div className="p-4 pb-2 flex justify-between items-center">
-          <img
-            src="#"
-            className={`overflow-hidden transition-all ${
-              expanded ? "w-32" : "w-0"
-            }`}
-            alt=""
-          />
-          <button
-            onClick={() => setExpanded((curr) => !curr)}
-            className=" rounded-lg bg-gray-50 hover:bg-gray-100"
-          >
-            {expanded ? <ChevronFirst /> : <ChevronLast />}
-          </button>
-        </div>
+    <>
+      <aside
+        className={`
+          fixed left-0 top-0 h-screen z-50 bg-white border-r shadow-lg transition-all duration-300
+          ${expanded ? "w-64" : "w-16"}  
+        `}
+      >
+        <nav className="h-full flex flex-col">
+          <div className="p-4 pb-2 flex justify-between items-center">
+            <img
+              src="#"
+              className={`overflow-hidden transition-all ${
+                expanded ? "w-32" : "w-0"
+              }`}
+              alt=""
+            />
+            <button
+              onClick={() => setExpanded((curr) => !curr)}
+              className="rounded-lg bg-gray-50 hover:bg-gray-100"
+            >
+              {expanded ? <ChevronFirst /> : <ChevronLast />}
+            </button>
+          </div>
 
-        <SidebarContext.Provider value={{ expanded }}>
-          <ul className="flex-1 px-3">{children}</ul>
-        </SidebarContext.Provider>
+          <SidebarContext.Provider value={{ expanded }}>
+            <ul className="flex-1 px-3">{children}</ul>
+          </SidebarContext.Provider>
 
-        <div className="border-t flex p-3">
-          <img src="#" alt="" className="w-10 h-10 rounded-md" />
+          {/* Perfil de usuario */}
           <div
-            className={`
-              flex justify-between items-center
-              overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
-            `}
+            className="border-t flex p-3 cursor-pointer hover:bg-gray-50 transition"
+            onClick={() => setShowUserModal(true)}
           >
-            <div className="leading-4">
-              <h4 className="font-semibold"></h4>
-              <span className="text-xs text-gray-600"></span>
+            <CiUser />{" "}
+            <div
+              className={`
+                flex justify-between items-center
+                overflow-hidden transition-all ${expanded ? "w-52 ml-3" : "w-0"}
+              `}
+            >
+              <div className="leading-4">
+                <h4 className="font-semibold">{usuarioActivo.nombre}</h4>
+                <span className="text-xs text-gray-600">
+                  {usuarioActivo.rol}
+                </span>
+              </div>
+              <MoreVertical size={20} />
             </div>
-            <MoreVertical size={20} />
+          </div>
+        </nav>
+      </aside>
+
+      {showUserModal && (
+        <div
+          className="fixed inset-0 flex justify-center items-center bg-transparent z-[100]"
+          onClick={() => setShowUserModal(false)}
+        >
+          <div
+            className="bg-white p-6 rounded-xl shadow-xl w-[50%] max-w-lg relative border border-gray-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h2 className="text-xl font-semibold text-gray-800 mb-4 text-center">
+              Perfil del Usuario
+            </h2>
+
+            {/* Formulario editable */}
+            <div className="space-y-3 text-gray-700">
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  Nombre:
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 w-full border rounded px-2 py-1"
+                  value={usuarioActivo.nombre}
+                  onChange={(e) =>
+                    setUsuarioActivo({
+                      ...usuarioActivo,
+                      nombre: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  Correo:
+                </label>
+                <input
+                  type="email"
+                  className="mt-1 w-full border rounded px-2 py-1"
+                  value={usuarioActivo.correo}
+                  onChange={(e) =>
+                    setUsuarioActivo({
+                      ...usuarioActivo,
+                      correo: e.target.value,
+                    })
+                  }
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  Rol:
+                </label>
+                <input
+                  type="text"
+                  className="mt-1 w-full border rounded px-2 py-1 bg-gray-100"
+                  value={usuarioActivo.rol}
+                  readOnly
+                />
+              </div>
+            </div>
+
+            <div className="flex justify-between mt-6">
+              <button
+                className="px-4 py-2 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 transition"
+                onClick={() => {
+                  // Aquí puedes guardar los cambios en localStorage o llamar a tu API
+                  localStorage.setItem(
+                    "usuarioActivo",
+                    JSON.stringify(usuarioActivo)
+                  );
+                  alert("Datos actualizados!");
+                }}
+              >
+                Guardar
+              </button>
+
+              <button
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                onClick={handleCerrarSesion}
+              >
+                Cerrar sesión
+              </button>
+            </div>
+
+            <button
+              onClick={() => setShowUserModal(false)}
+              className="absolute top-2 right-3 text-gray-500 hover:text-gray-700"
+            >
+              ✕
+            </button>
           </div>
         </div>
-      </nav>
-    </aside>
+      )}
+    </>
   );
 }
 
-//esta es la interfaz para los items de la barra lateral
+// Items de la barra lateral
 interface SidebarItemProps {
   icon: React.ReactNode;
   text: string;
   to: string;
   alert?: boolean;
 }
-
-//esta es la función para los items de la barra lateral
 
 export function SidebarItem({ icon, text, to, alert }: SidebarItemProps) {
   const context = useContext(SidebarContext);
