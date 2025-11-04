@@ -33,19 +33,54 @@ export default function InicioSesionUsuarios() {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-b from-blue-100 to-purple-100 p-6">
-      <div className="w-full max-w-md bg-white/80 backdrop-blur-md rounded-xl shadow-xl p-10">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 tracking-wide">
+    <div
+      className="w-full min-h-screen flex items-center justify-center p-6"
+      style={{
+        background: "linear-gradient(to bottom, var(--color-bg), #fff)",
+      }}
+    >
+      <div
+        className="w-full max-w-md rounded-xl shadow-xl p-10 backdrop-blur-md"
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.85)",
+          color: "var(--color-text)",
+        }}
+      >
+        <h2
+          className="text-3xl font-bold text-center mb-8 tracking-wide"
+          style={{ color: "var(--color-text)" }}
+        >
           Iniciar Sesión
         </h2>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Email */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-blue-500 pb-2 transition-colors">
-            <FiMail className="text-xl text-gray-400 mr-3" />
+          <div
+            className="flex items-center border-b-2 pb-2 transition-colors"
+            style={{
+              borderColor: "var(--color-muted)",
+            }}
+            onFocus={(e) =>
+              ((e.currentTarget as HTMLElement).style.borderColor =
+                "var(--color-primary)")
+            }
+            onBlur={(e) =>
+              ((e.currentTarget as HTMLElement).style.borderColor =
+                "var(--color-muted)")
+            }
+          >
+            <FiMail
+              className="text-xl mr-3"
+              style={{ color: "var(--color-muted)" }}
+            />
             <input
               type="email"
               placeholder="Correo Electrónico"
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
+              className="w-full bg-transparent outline-none"
+              style={{
+                color: "var(--color-text)",
+                caretColor: "var(--color-primary)",
+              }}
               value={correo}
               onChange={(e) => setCorreo(e.target.value)}
               required
@@ -53,12 +88,32 @@ export default function InicioSesionUsuarios() {
           </div>
 
           {/* Contraseña */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-blue-500 pb-2 transition-colors">
-            <FiLock className="text-xl text-gray-400 mr-3" />
+          <div
+            className="flex items-center border-b-2 pb-2 transition-colors"
+            style={{
+              borderColor: "var(--color-muted)",
+            }}
+            onFocus={(e) =>
+              ((e.currentTarget as HTMLElement).style.borderColor =
+                "var(--color-primary)")
+            }
+            onBlur={(e) =>
+              ((e.currentTarget as HTMLElement).style.borderColor =
+                "var(--color-muted)")
+            }
+          >
+            <FiLock
+              className="text-xl mr-3"
+              style={{ color: "var(--color-muted)" }}
+            />
             <input
               type="password"
               placeholder="Contraseña"
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
+              className="w-full bg-transparent outline-none"
+              style={{
+                color: "var(--color-text)",
+                caretColor: "var(--color-primary)",
+              }}
               value={contrasena}
               onChange={(e) => setContrasena(e.target.value)}
               required
@@ -67,14 +122,30 @@ export default function InicioSesionUsuarios() {
 
           {/* Error */}
           {error && (
-            <p className="text-red-500 text-center font-medium">{error}</p>
+            <p
+              className="text-center font-medium"
+              style={{ color: "red" }}
+            >
+              {error}
+            </p>
           )}
 
           {/* Botón */}
           <div className="flex justify-center mt-6">
             <button
               type="submit"
-              className="bg-blue-600 text-white w-full py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold shadow-md"
+              className="w-full py-3 rounded-lg font-semibold shadow-md transition-colors"
+              style={{
+                backgroundColor: "var(--color-primary)",
+                color: "#fff",
+              }}
+              onMouseOver={(e) =>
+                (e.currentTarget.style.backgroundColor =
+                  "var(--color-secondary)")
+              }
+              onMouseOut={(e) =>
+                (e.currentTarget.style.backgroundColor = "var(--color-primary)")
+              }
             >
               Entrar
             </button>
@@ -82,12 +153,16 @@ export default function InicioSesionUsuarios() {
 
           {/* Registro */}
           <div className="text-center mt-4">
-            <p className="text-gray-600">
+            <p style={{ color: "var(--color-muted)" }}>
               ¿No tienes cuenta?{" "}
               <button
                 type="button"
                 onClick={() => navigate("/registro")}
-                className="text-blue-600 hover:underline font-semibold"
+                className="font-semibold"
+                style={{
+                  color: "var(--color-primary)",
+                  textDecoration: "underline",
+                }}
               >
                 Regístrate aquí
               </button>
