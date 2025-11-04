@@ -7,6 +7,10 @@ import VistaUsuarios from "./pages/usuarios/VistaUsuarios";
 import RegistroUsuarios from "./pages/usuarios/RegistroUsuarios";
 import InicioSesionUsuarios from "./pages/usuarios/login";
 import LandingPage from "./pages/common/LadingPage";
+import MisPasanakus from "./pages/grupos/MisPasanakus";
+import GrupoDetalle from "./pages/grupos/GrupoDetalle";
+import HomeDashboard from "./pages/common/homeDashboard";
+import { FaPeopleGroup } from "react-icons/fa6";
 
 function App() {
   return (
@@ -31,19 +35,19 @@ function App() {
                   text="Usuarios"
                   to="/app/tabla-usuarios"
                 />
+                <SidebarItem
+                  icon={<FaPeopleGroup />}
+                  text="Grupos"
+                  to="/app/mis-grupos"
+                />
               </Navbar>
 
               <main className="flex-1 ml-16 p-6 bg-gray-50">
                 <Routes>
-                  <Route
-                    path="inicio"
-                    element={
-                      <h1 className="text-black text-2xl font-bold">
-                        Página de Inicio
-                      </h1>
-                    }
-                  />
+                  <Route path="inicio" element={<HomeDashboard />} />
                   <Route path="tabla-usuarios" element={<VistaUsuarios />} />
+                  <Route path="mis-grupos" element={<MisPasanakus />} />
+                  <Route path="grupos/:id" element={<GrupoDetalle />} />
                 </Routes>
               </main>
             </div>
