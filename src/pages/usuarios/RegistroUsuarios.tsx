@@ -202,7 +202,7 @@ export default function RegistroUsuarios() {
               ¿Ya tienes cuenta?{" "}
               <button
                 type="button"
-                onClick={() => navigate("/")}
+                onClick={() => navigate("/login")}
                 className="text-purple-600 hover:underline font-semibold"
               >
                 Inicia sesión aquí

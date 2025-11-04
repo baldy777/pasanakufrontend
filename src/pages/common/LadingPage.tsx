@@ -1,8 +1,10 @@
 // src/pages/LandingPage.tsx
 // src/pages/LandingPage.tsx
 import type { FC } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LandingPage: FC = () => {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen flex flex-col">
       {/* Header */}
@@ -34,7 +36,11 @@ const LandingPage: FC = () => {
           Gestiona tus grupos, aportes y turnos de manera digital y segura, sin
           perder el espíritu de confianza entre amigos.
         </p>
-        <button className="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition">
+        <button
+          className="bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition"
+          type="button"
+          onClick={() => navigate("/login")}
+        >
           Comenzar ahora
         </button>
       </section>
@@ -108,7 +114,11 @@ const LandingPage: FC = () => {
         <p className="text-gray-600 mb-8">
           Crea tu cuenta y empieza tu primer pasanaku hoy mismo.
         </p>
-        <button className="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition">
+        <button
+          className="bg-blue-600 text-white px-8 py-3 rounded-full hover:bg-blue-700 transition"
+          type="button"
+          onClick={() => navigate("/registro")}
+        >
           Registrarme
         </button>
       </section>
