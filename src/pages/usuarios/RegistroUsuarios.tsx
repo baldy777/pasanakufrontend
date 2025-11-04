@@ -61,7 +61,7 @@ export default function RegistroUsuarios() {
       confirmarContraseña: "",
     });
 
-    navigate("/inicio");
+    navigate("/app/*");
   };
 
   return (
