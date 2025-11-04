@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FiMail, FiUser, FiLock, FiCalendar, FiMapPin } from "react-icons/fi"; // Iconos modernos
+import { FiMail, FiUser, FiLock, FiCalendar, FiMapPin } from "react-icons/fi";
 
 export default function RegistroUsuarios() {
   const navigate = useNavigate();
@@ -16,14 +16,14 @@ export default function RegistroUsuarios() {
     confirmarContraseña: "",
   });
 
-  const handleChange = (e: { target: { name: any; value: any; }; }) => {
+  const handleChange = (e: { target: { name: any; value: any } }) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
     });
   };
 
-  const handleSubmit = (e: { preventDefault: () => void; }) => {
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
     if (formData.contraseña !== formData.confirmarContraseña) {
@@ -65,9 +65,23 @@ export default function RegistroUsuarios() {
   };
 
   return (
-    <div className="w-full min-h-screen flex items-center justify-center bg-gradient-to-b from-purple-100 to-blue-100 p-6">
-      <div className="w-full max-w-4xl bg-white/80 backdrop-blur-md rounded-xl shadow-xl p-10">
-        <h2 className="text-3xl font-bold text-center mb-8 text-gray-900 tracking-wide">
+    <div
+      className="w-full min-h-screen flex items-center justify-center p-6"
+      style={{
+        background: "linear-gradient(to bottom, var(--color-bg), #fff)",
+      }}
+    >
+      <div
+        className="w-full max-w-4xl rounded-xl shadow-xl p-10 backdrop-blur-md"
+        style={{
+          backgroundColor: "rgba(255, 255, 255, 0.85)",
+          color: "var(--color-text)",
+        }}
+      >
+        <h2
+          className="text-3xl font-bold text-center mb-8 tracking-wide"
+          style={{ color: "var(--color-text)" }}
+        >
           Registro de Usuarios
         </h2>
 
@@ -75,122 +89,74 @@ export default function RegistroUsuarios() {
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 gap-6"
         >
-          {/* Nombre */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-purple-500 pb-2 transition-colors">
-            <FiUser className="text-xl text-gray-400 mr-3" />
-            <input
-              type="text"
-              placeholder="Nombre"
-              name="nombre"
-              value={formData.nombre}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
-              required
-            />
-          </div>
-
-          {/* Apellido Paterno */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-purple-500 pb-2 transition-colors">
-            <FiUser className="text-xl text-gray-400 mr-3" />
-            <input
-              type="text"
-              placeholder="Apellido Paterno"
-              name="apellido_paterno"
-              value={formData.apellido_paterno}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
-              required
-            />
-          </div>
-
-          {/* Apellido Materno */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-purple-500 pb-2 transition-colors">
-            <FiUser className="text-xl text-gray-400 mr-3" />
-            <input
-              type="text"
-              placeholder="Apellido Materno"
-              name="apellido_materno"
-              value={formData.apellido_materno}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
-              required
-            />
-          </div>
-
-          {/* Correo Electrónico */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-purple-500 pb-2 transition-colors">
-            <FiMail className="text-xl text-gray-400 mr-3" />
-            <input
-              type="email"
-              placeholder="Correo Electrónico"
-              name="correo_electronico"
-              value={formData.correo_electronico}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
-              required
-            />
-          </div>
-
-          {/* Fecha de Nacimiento */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-purple-500 pb-2 transition-colors">
-            <FiCalendar className="text-xl text-gray-400 mr-3" />
-            <input
-              type="date"
-              name="fecha_nacimiento"
-              value={formData.fecha_nacimiento}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
-              required
-            />
-          </div>
-
-          {/* Dirección */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-purple-500 pb-2 transition-colors">
-            <FiMapPin className="text-xl text-gray-400 mr-3" />
-            <input
-              type="text"
-              placeholder="Dirección"
-              name="direccion"
-              value={formData.direccion}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
-              required
-            />
-          </div>
-
-          {/* Contraseña */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-purple-500 pb-2 transition-colors">
-            <FiLock className="text-xl text-gray-400 mr-3" />
-            <input
-              type="password"
-              placeholder="Contraseña"
-              name="contraseña"
-              value={formData.contraseña}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
-              required
-            />
-          </div>
-
-          {/* Confirmar Contraseña */}
-          <div className="flex items-center border-b-2 border-gray-300 focus-within:border-purple-500 pb-2 transition-colors">
-            <FiLock className="text-xl text-gray-400 mr-3" />
-            <input
-              type="password"
-              placeholder="Confirme Contraseña"
-              name="confirmarContraseña"
-              value={formData.confirmarContraseña}
-              onChange={handleChange}
-              className="w-full bg-transparent outline-none placeholder-gray-400 text-gray-900"
-              required
-            />
-          </div>
+          {/* Campo genérico */}
+          {[
+            { name: "nombre", icon: <FiUser /> },
+            { name: "apellido_paterno", icon: <FiUser /> },
+            { name: "apellido_materno", icon: <FiUser /> },
+            { name: "correo_electronico", icon: <FiMail /> },
+            { name: "fecha_nacimiento", icon: <FiCalendar />, type: "date" },
+            { name: "direccion", icon: <FiMapPin /> },
+            { name: "contraseña", icon: <FiLock />, type: "password" },
+            {
+              name: "confirmarContraseña",
+              icon: <FiLock />,
+              type: "password",
+            },
+          ].map((field, i) => (
+            <div
+              key={i}
+              className="flex items-center border-b-2 pb-2 transition-colors"
+              style={{ borderColor: "var(--color-muted)" }}
+              onFocus={(e) =>
+                ((e.currentTarget as HTMLElement).style.borderColor =
+                  "var(--color-primary)")
+              }
+              onBlur={(e) =>
+                ((e.currentTarget as HTMLElement).style.borderColor =
+                  "var(--color-muted)")
+              }
+            >
+              <div className="text-xl mr-3" style={{ color: "var(--color-muted)" }}>
+                {field.icon}
+              </div>
+              <input
+                type={field.type || "text"}
+                placeholder={
+                  field.name
+                    .replace("_", " ")
+                    .replace("confirmarContraseña", "Confirme Contraseña")
+                    .replace("correo electronico", "Correo Electrónico")
+                    .replace(/\b\w/g, (c) => c.toUpperCase())
+                }
+                name={field.name}
+                value={(formData as any)[field.name]}
+                onChange={handleChange}
+                className="w-full bg-transparent outline-none"
+                style={{
+                  color: "var(--color-text)",
+                  caretColor: "var(--color-primary)",
+                }}
+                required
+              />
+            </div>
+          ))}
 
           {/* Botón */}
           <div className="md:col-span-2 flex justify-center mt-6">
             <button
               type="submit"
-              className="bg-purple-600 text-white w-full py-3 rounded-lg hover:bg-purple-700 transition-colors font-semibold shadow-md"
+              className="w-full py-3 rounded-lg font-semibold shadow-md transition-colors"
+              style={{
+                backgroundColor: "var(--color-primary)",
+                color: "#fff",
+              }}
+              onMouseOver={(e) =>
+                (e.currentTarget.style.backgroundColor = "var(--color-secondary)")
+              }
+              onMouseOut={(e) =>
+                (e.currentTarget.style.backgroundColor = "var(--color-primary)")
+              }
             >
               Registrarse
             </button>
@@ -198,12 +164,16 @@ export default function RegistroUsuarios() {
 
           {/* Iniciar sesión */}
           <div className="md:col-span-2 text-center mt-4">
-            <p className="text-gray-600">
+            <p style={{ color: "var(--color-muted)" }}>
               ¿Ya tienes cuenta?{" "}
               <button
                 type="button"
                 onClick={() => navigate("/login")}
-                className="text-purple-600 hover:underline font-semibold"
+                className="font-semibold"
+                style={{
+                  color: "var(--color-primary)",
+                  textDecoration: "underline",
+                }}
               >
                 Inicia sesión aquí
               </button>
